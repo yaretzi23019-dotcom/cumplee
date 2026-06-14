@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños, Tía Especial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter para lectura y Playfair/Great Vibes para toques románticos/elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 50%, #fbcfe8 100%);
+            overflow-x: hidden;
+        }
+        .font-cursive {
+            font-family: 'Great Vibes', cursive;
+        }
+        .font-serif-elegant {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(253, 242, 248, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 10px;
+        }
+        /* Animated floating hearts background */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .bg-heart {
+            position: absolute;
+            color: rgba(244, 114, 182, 0.4);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp 15s linear infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <div id="hearts-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <section id="welcome-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gradient-to-tr from-pink-100 via-rose-50 to-amber-50 transition-all duration-1000">
+        <div class="bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center border border-pink-100 transform scale-100 transition-transform relative overflow-hidden">
+            <!-- Decorative glitter elements -->
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-amber-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+            
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce">
+                    <i class="fa-solid fa-gift text-rose-500 text-3xl"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-serif-elegant font-bold text-rose-600 mb-2">¡Una Sorpresa Especial!</h1>
+                <p class="text-sm md:text-base text-gray-500 mb-8">Antes de abrir este regalo, por favor comparte con nosotros unos detalles para personalizar tu experiencia.</p>
+                
+                <form id="welcome-form" onsubmit="handleWelcomeSubmit(event)" class="space-y-5 text-left">
+                    <div>
+                        <label class="block text-xs font-semibold text-rose-600 uppercase tracking-wider mb-2">Tu Nombre</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-400">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="user-name" required placeholder="Escribe tu nombre aquí..." 
+                                class="w-full pl-10 pr-4 py-3 bg-rose-50/50 border border-rose-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-400 transition text-slate-700 font-medium">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-rose-600 uppercase tracking-wider mb-2">Fecha de Cumpleaños de la festejada</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-400">
+                                <i class="fa-solid fa-cake-candles"></i>
+                            </span>
+                            <input type="date" id="user-bday" required 
+                                class="w-full pl-10 pr-4 py-3 bg-rose-50/50 border border-rose-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-400 transition text-slate-700 font-medium">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 mt-6">
+                        <span>Descubrir Sorpresa</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <main id="main-content" class="hidden relative z-10 max-w-6xl mx-auto px-4 py-8 flex-grow flex flex-col justify-center items-center">
+        
+        <!-- Cabecera de felicitación personalizada -->
+        <header class="text-center mb-8 max-w-2xl transform translate-y-4 transition-all duration-1000 opacity-0" id="header-personalized">
+            <span class="px-4 py-1.5 bg-rose-100 text-rose-600 font-semibold text-xs rounded-full uppercase tracking-widest inline-block mb-3">Celebración Especial</span>
+            <h2 id="personalized-title" class="text-3xl md:text-5xl font-serif-elegant font-bold text-rose-700 mb-3">¡Feliz Cumpleaños, Querida Tía!</h2>
+            <p id="personalized-subtitle" class="text-sm md:text-base text-slate-600 leading-relaxed">Hoy celebramos tu hermosa existencia. Mira este corazón construido con momentos dedicados especialmente para ti.</p>
+        </header>
+
+        <div class="relative w-full max-w-[340px] h-[340px] sm:max-w-[500px] sm:h-[500px] md:max-w-[620px] md:h-[620px] mx-auto my-12 transform scale-95 opacity-0 transition-all duration-1000" id="heart-collage-container">
+            <!-- Central decorative element -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-32 h-32 md:w-48 md:h-48 rounded-full bg-rose-200/30 filter blur-2xl animate-pulse"></div>
+            </div>
+
+            <!-- Polaroid Photo 1: Left Lobe top -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 15%; top: 12%; transform: rotate(-12deg);" onclick="triggerPhotoUpload(0)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-0" src="teamo.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Love'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Amor incondicional</div>
+                <input type="file" id="file-0" class="hidden" accept="image/*" onchange="uploadPhoto(event, 0)">
+            </div>
+
+            <!-- Polaroid Photo 2: Right Lobe top -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 60%; top: 12%; transform: rotate(10deg);" onclick="triggerPhotoUpload(1)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-1" src="abrazo.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Feliz'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Felicidad</div>
+                <input type="file" id="file-1" class="hidden" accept="image/*" onchange="uploadPhoto(event, 1)">
+            </div>
+
+            <!-- Polaroid Photo 3: Left outer spark -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 2%; top: 32%; transform: rotate(-5deg);" onclick="triggerPhotoUpload(2)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-2" src="adoro.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Sonrisa'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Tu sonrisa única</div>
+                <input type="file" id="file-2" class="hidden" accept="image/*" onchange="uploadPhoto(event, 2)">
+            </div>
+
+            <!-- Polaroid Photo 4: Middle/Center heart -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 37%; top: 35%; transform: rotate(4deg);" onclick="triggerPhotoUpload(3)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-3" src="beso.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Inolvidable'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Tía inigualable</div>
+                <input type="file" id="file-3" class="hidden" accept="image/*" onchange="uploadPhoto(event, 3)">
+            </div>
+
+            <!-- Polaroid Photo 5: Right outer spark -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 72%; top: 32%; transform: rotate(8deg);" onclick="triggerPhotoUpload(4)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-4" src="dia.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Cari%C3%B1o'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Ternura y luz</div>
+                <input type="file" id="file-4" class="hidden" accept="image/*" onchange="uploadPhoto(event, 4)">
+            </div>
+
+            <!-- Polaroid Photo 6: Bottom left fold -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 18%; top: 58%; transform: rotate(-10deg);" onclick="triggerPhotoUpload(5)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-5" src="feliz.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Familia'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Compartir risas</div>
+                <input type="file" id="file-5" class="hidden" accept="image/*" onchange="uploadPhoto(event, 5)">
+            </div>
+
+            <!-- Polaroid Photo 7: Bottom right fold -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 55%; top: 58%; transform: rotate(12deg);" onclick="triggerPhotoUpload(6)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-6" src="Love.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Abrazo'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Momentos mágicos</div>
+                <input type="file" id="file-6" class="hidden" accept="image/*" onchange="uploadPhoto(event, 6)">
+            </div>
+
+            <!-- Polaroid Photo 8: Bottom absolute peak -->
+            <div class="polaroid-card absolute w-24 h-28 sm:w-36 sm:h-40 md:w-40 md:h-44 bg-white p-1.5 sm:p-2.5 rounded shadow-lg border border-pink-100 cursor-pointer transform hover:scale-110 hover:rotate-0 transition duration-300 select-none hover:z-30 group" 
+                 style="left: 37%; top: 76%; transform: rotate(-3deg);" onclick="triggerPhotoUpload(7)">
+                <div class="w-full h-4/5 bg-slate-100 overflow-hidden rounded relative">
+                    <img id="img-7" src="nene.jpg" alt="Moment" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/fecdd3/e11d48?text=Celebracion'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-white text-xs gap-1 font-semibold"><i class="fa-solid fa-camera"></i> Cambiar</div>
+                </div>
+                <div class="text-center mt-1 sm:mt-2 text-[10px] sm:text-xs font-cursive font-bold text-rose-600">Por siempre unidas</div>
+                <input type="file" id="file-7" class="hidden" accept="image/*" onchange="uploadPhoto(event, 7)">
+            </div>
+        </div>
+
+        <p class="text-xs text-slate-500 mb-6 flex items-center gap-1.5 justify-center"><i class="fa-solid fa-circle-info text-rose-400"></i> Tip: Puedes hacer clic en cualquiera de las Polaroids para subir tus propias fotos.</p>
+
+        <div class="text-center z-20 mb-12">
+            <button onclick="openLetterSection()" class="relative group px-10 py-5 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 overflow-hidden">
+                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-96 ease"></span>
+                <span class="flex items-center gap-3">
+                    <i class="fa-solid fa-envelope-open-text animate-pulse"></i>
+                    <span>Toca aquí para abrir tu carta especial</span>
+                </span>
+            </button>
+        </div>
+    </main>
+
+    <section id="letter-section" class="fixed inset-0 z-40 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md transition-all duration-500">
+        <div id="envelope-wrapper" class="w-full max-w-lg flex flex-col items-center">
+            
+            <!-- Envelope container -->
+            <div id="interactive-envelope" class="relative w-full h-64 md:h-80 bg-rose-200 rounded-b-2xl shadow-2xl border-t-0 flex items-center justify-center transition-all duration-700 cursor-pointer hover:shadow-pink-300/40 hover:shadow-3xl" onclick="toggleCardSlide()">
+                <!-- Envelope Flap -->
+                <div id="envelope-flap" class="absolute top-0 left-0 right-0 h-0 border-l-[160px] md:border-l-[256px] border-l-transparent border-r-[160px] md:border-r-[256px] border-r-transparent border-t-[120px] md:border-t-[150px] border-t-rose-300 origin-top transition-transform duration-500 z-30" style="transform: rotateX(0deg);"></div>
+                
+                <!-- Inner letter slide-out -->
+                <div id="letter-paper" class="absolute w-[92%] h-[230px] md:h-[280px] bg-amber-50 rounded-2xl p-6 md:p-8 shadow-inner border border-amber-100 z-10 transition-all duration-1000 overflow-y-auto flex flex-col justify-between" style="transform: translateY(10px); opacity: 0.95;">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-cursive text-2xl md:text-3xl text-rose-600 font-bold">Querida Tía,</h3>
+                            <i class="fa-solid fa-heart text-rose-500 animate-pulse"></i>
+                        </div>
+                        <p class="font-serif-elegant text-sm md:text-base leading-relaxed text-slate-700 text-justify" id="letter-body">
+                            <!-- El mensaje será inyectado para asegurar personalización y legibilidad -->
+                        </p>
+                    </div>
+                    
+                    <!-- Bottom section of the letter inside -->
+                    <div class="mt-6 flex justify-end">
+                        <span class="font-cursive text-xl md:text-2xl text-rose-600 font-bold border-t border-rose-200 pt-2 px-4" id="letter-signature">- Con todo mi amor</span>
+                    </div>
+                </div>
+
+                <!-- Envelope Body front parts (Visual illusion of depth) -->
+                <div class="absolute bottom-0 left-0 right-0 h-full border-l-[160px] md:border-l-[256px] border-l-rose-100/30 border-r-[160px] md:border-r-[256px] border-r-rose-100/30 border-b-[128px] md:border-b-[160px] border-b-rose-400/20 rounded-b-2xl z-20 pointer-events-none"></div>
+
+                <!-- Tap instruction indicator -->
+                <div id="tap-instruction" class="absolute inset-0 flex flex-col items-center justify-center text-rose-700 z-30 bg-rose-200/90 rounded-2xl p-6 text-center shadow-lg transition-all duration-300">
+                    <i class="fa-solid fa-envelope text-4xl mb-3 animate-bounce"></i>
+                    <h4 class="font-serif-elegant text-lg font-bold">Tienes una carta guardada en este sobre</h4>
+                    <p class="text-xs text-rose-600/80 mt-1">Haz clic en el sobre para abrirlo y leer el mensaje de cumpleaños</p>
+                </div>
+            </div>
+
+            <!-- Control buttons to close letter/envelope -->
+            <div id="letter-controls" class="hidden w-full flex flex-col sm:flex-row gap-3 mt-8 z-50">
+                <button onclick="closeLetterAndCelebrate()" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-2xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-gift"></i>
+                    <span>Cerrar carta y ¡Celebrar!</span>
+                </button>
+                <button onclick="backToMainFromLetter()" class="w-full py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-2xl transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Volver al collage</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="celebration-screen" class="fixed inset-0 z-50 hidden bg-slate-950 flex flex-col justify-between p-4 overflow-hidden select-none">
+        <!-- Interactive Canvas for Fireworks and Sparks -->
+        <canvas id="fireworks-canvas" class="absolute inset-0 w-full h-full z-10"></canvas>
+
+        <!-- Floating interactive card on top of celebration -->
+        <div class="relative z-20 m-auto max-w-lg w-full bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 text-center shadow-2xl text-white transform scale-95 opacity-0 transition-all duration-1000 flex flex-col items-center justify-center" id="celebration-card">
+            <div class="w-24 h-24 bg-gradient-to-tr from-amber-400 to-rose-500 rounded-full flex items-center justify-center mb-6 shadow-lg animate-pulse">
+                <i class="fa-solid fa-crown text-4xl text-white"></i>
+            </div>
+            
+            <h2 class="text-4xl md:text-5xl font-serif-elegant font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-pink-300 to-rose-300 mb-4 animate-bounce" id="congratulations-title">
+                ¡Felicidades Tía!
+            </h2>
+            
+            <!-- Sparkling message -->
+            <p class="text-base md:text-lg text-rose-100 leading-relaxed font-semibold mb-6">
+                ¡Feliz cumpleaños a una gran persona, increíble, única y atenta! No sabes cuánto vales, lo increíble que eres. De todo corazón te deseamos lo mejor en esta vida.
+            </p>
+
+            <p class="font-cursive text-3xl text-amber-300 mb-8">¡Te amamos y te amaremos siempre!</p>
+
+            <div class="flex flex-col gap-3 w-full">
+                <!-- Botón Finalizar destacado -->
+                <button onclick="showIncredibleFlowers()" class="w-full py-4 bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-white font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg animate-pulse">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>¡Finalizar y Recibir Regalo! 💐</span>
+                </button>
+                <div class="flex gap-2 w-full mt-2">
+                    <button onclick="restartCelebration()" class="w-1/2 py-3 bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Ver de nuevo</span>
+                    </button>
+                    <button onclick="muteMusicToggle()" id="btn-audio-toggle" class="w-1/2 py-3 bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+                        <span id="audio-text">Música</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Touch to explode instructions -->
+        <div class="relative z-20 text-center pb-4 text-xs text-rose-300/70 select-none">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1 animate-spin"></i> Toca la pantalla para encender más cohetes y destellos
+        </div>
+    </section>
+
+    <section id="flowers-screen" class="fixed inset-0 z-50 hidden bg-gradient-to-b from-rose-950 via-slate-950 to-emerald-950 flex flex-col justify-between p-4 overflow-hidden select-none">
+        <!-- Canvas para renderizar el ramo de flores creciendo orgánicamente -->
+        <canvas id="flowers-canvas" class="absolute inset-0 w-full h-full z-10"></canvas>
+
+        <!-- Mensaje final superpuesto con desenfoque de cristal -->
+        <div id="flowers-card" class="relative z-20 m-auto max-w-lg w-full bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border border-pink-500/30 text-center shadow-2xl text-white transform scale-90 opacity-0 transition-all duration-1000 flex flex-col items-center justify-center mt-12">
+            <div class="w-16 h-16 bg-gradient-to-tr from-rose-400 to-pink-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
+                <i class="fa-solid fa-spa text-2xl text-white animate-spin" style="animation-duration: 10s"></i>
+            </div>
+            
+            <h2 class="text-3xl md:text-4xl font-serif-elegant font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-pink-300 to-amber-200 mb-2">
+                Un Ramo de Flores Eternas
+            </h2>
+            
+            <p class="text-xs md:text-sm text-pink-200 leading-relaxed mb-6">
+                Cultivadas con admiración y amor infinito. Cada pétalo que florece representa un deseo de felicidad y salud para ti en tu vida, tía querida.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button onclick="resetWholeSurprise()" class="w-full py-3 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 text-white font-bold rounded-xl transition transform hover:-translate-y-0.5 text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Comenzar desde el inicio</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Instrucción de interacción final -->
+        <div class="relative z-20 text-center pb-4 text-xs text-pink-300/60 select-none">
+            <i class="fa-solid fa-heart mr-1 text-rose-500 animate-pulse"></i> ¡Este ramo virtual es para siempre! ¡Felicidades hoy y siempre!
+        </div>
+    </section>
+
+    <footer class="relative z-10 text-center py-6 text-xs text-rose-600/60 font-medium">
+        Hecho con todo el amor del mundo para una tía maravillosa • <span id="current-year"></span>
+    </footer>
+
+    <script>
+        // Set dynamic year in footer
+        document.getElementById('current-year').innerText = new Date().getFullYear();
+
+        // Audio Setup (Synthesizer to avoid load block issues)
+        let audioCtx = null;
+        let melodyInterval = null;
+        let isMuted = false;
+        
+        // Happy birthday melody notes
+        const melody = [
+            { note: 261.63, dur: 0.4 }, // C4
+            { note: 261.63, dur: 0.2 }, // C4
+            { note: 293.66, dur: 0.6 }, // D4
+            { note: 261.63, dur: 0.6 }, // C4
+            { note: 349.23, dur: 0.6 }, // F4
+            { note: 329.63, dur: 1.2 }, // E4
+            
+            { note: 261.63, dur: 0.4 }, // C4
+            { note: 261.63, dur: 0.2 }, // C4
+            { note: 293.66, dur: 0.6 }, // D4
+            { note: 261.63, dur: 0.6 }, // C4
+            { note: 392.00, dur: 0.6 }, // G4
+            { note: 349.23, dur: 1.2 }, // F4
+            
+            { note: 261.63, dur: 0.4 }, // C4
+            { note: 261.63, dur: 0.2 }, // C4
+            { note: 523.25, dur: 0.6 }, // C5
+            { note: 440.00, dur: 0.6 }, // A4
+            { note: 349.23, dur: 0.6 }, // F4
+            { note: 329.63, dur: 0.6 }, // E4
+            { note: 293.66, dur: 1.2 }, // D4
+            
+            { note: 466.16, dur: 0.4 }, // Bb4
+            { note: 466.16, dur: 0.2 }, // Bb4
+            { note: 440.00, dur: 0.6 }, // A4
+            { note: 349.23, dur: 0.6 }, // F4
+            { note: 392.00, dur: 0.6 }, // G4
+            { note: 349.23, dur: 1.2 }  // F4
+        ];
+
+        // Soft sparkle sound when things bloom
+        function playSparksSound() {
+            if (isMuted) return;
+            initAudioContext();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.5);
+
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
+        // Magical wind instrument note for blooming flowers
+        function playBloomSound() {
+            if (isMuted) return;
+            initAudioContext();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.8);
+
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.8);
+        }
+
+        function playCelebrationMusic() {
+            if (isMuted) return;
+            initAudioContext();
+            if (!audioCtx) return;
+
+            stopCelebrationMusic();
+
+            let currentNoteIndex = 0;
+            
+            function playNextNote() {
+                if (isMuted || !audioCtx) return;
+                const noteObj = melody[currentNoteIndex];
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.value = noteObj.note;
+                
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + noteObj.dur - 0.05);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + noteObj.dur);
+                
+                currentNoteIndex = (currentNoteIndex + 1) % melody.length;
+                melodyInterval = setTimeout(playNextNote, noteObj.dur * 1000);
+            }
+            
+            playNextNote();
+        }
+
+        function stopCelebrationMusic() {
+            if (melodyInterval) {
+                clearTimeout(melodyInterval);
+                melodyInterval = null;
+            }
+        }
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function muteMusicToggle() {
+            isMuted = !isMuted;
+            const btnIcon = document.getElementById('audio-icon');
+            const btnText = document.getElementById('audio-text');
+            if (isMuted) {
+                stopCelebrationMusic();
+                btnIcon.className = 'fa-solid fa-volume-xmark';
+                btnText.innerText = 'Muted';
+            } else {
+                btnIcon.className = 'fa-solid fa-volume-high';
+                btnText.innerText = 'Música';
+                playCelebrationMusic();
+            }
+        }
+
+        // Generate Floating Background Hearts
+        function buildFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartIcons = ['fa-heart', 'fa-sparkles', 'fa-gift'];
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('i');
+                heart.className = `fa-solid ${heartIcons[Math.floor(Math.random() * heartIcons.length)]} bg-heart`;
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDelay = `${Math.random() * 10}s`;
+                heart.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+                container.appendChild(heart);
+            }
+        }
+        buildFloatingHearts();
+
+        let userName = "";
+        let bDay = "";
+
+        function handleWelcomeSubmit(e) {
+            e.preventDefault();
+            userName = document.getElementById('user-name').value;
+            bDay = document.getElementById('user-bday').value;
+
+            // Transition Welcome Screen away
+            const welcome = document.getElementById('welcome-screen');
+            welcome.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Show main layout
+            const main = document.getElementById('main-content');
+            main.classList.remove('hidden');
+
+            setupCustomizedContent();
+
+            setTimeout(() => {
+                const header = document.getElementById('header-personalized');
+                const collage = document.getElementById('heart-collage-container');
+                header.classList.remove('opacity-0', 'translate-y-4');
+                collage.classList.remove('opacity-0', 'scale-95');
+                initAudioContext();
+            }, 100);
+        }
+
+        function setupCustomizedContent() {
+            const titleEl = document.getElementById('personalized-title');
+            titleEl.innerHTML = `¡Feliz Cumpleaños, querida Tía!`;
+            
+            const subtitleEl = document.getElementById('personalized-subtitle');
+            subtitleEl.innerText = `${userName} te ha preparado este espacio lleno de amor para celebrar tu hermoso día de nacimiento.`;
+
+            // Personalize Letter inside the card
+            const letterBody = document.getElementById('letter-body');
+            letterBody.innerHTML = `¡Feliz cumpleaños a una gran persona, increíble, única y atenta, tía! No sabes cuánto vales, lo increíble que eres. De todo corazón te deseo todo lo mejor de esta vida. ¡Te amo y te amaré siempre!`;
+            
+            const signatureEl = document.getElementById('letter-signature');
+            signatureEl.innerText = `- Con todo el cariño de ${userName}`;
+        }
+
+        function triggerPhotoUpload(id) {
+            document.getElementById(`file-${id}`).click();
+        }
+
+        function uploadPhoto(event, id) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(`img-${id}`);
+                    img.src = e.target.result;
+                    playSparksSound();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        let isCardOpened = false;
+        function openLetterSection() {
+            const letterSection = document.getElementById('letter-section');
+            letterSection.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            playSparksSound();
+        }
+
+        function backToMainFromLetter() {
+            const letterSection = document.getElementById('letter-section');
+            letterSection.classList.add('hidden');
+            document.body.style.overflow = '';
+            
+            if (isCardOpened) {
+                toggleCardSlide();
+            }
+        }
+
+        function toggleCardSlide() {
+            const paper = document.getElementById('letter-paper');
+            const flap = document.getElementById('envelope-flap');
+            const instruction = document.getElementById('tap-instruction');
+            const controls = document.getElementById('letter-controls');
+
+            if (!isCardOpened) {
+                flap.style.transform = 'rotateX(180deg)';
+                flap.style.zIndex = '5';
+                
+                setTimeout(() => {
+                    paper.style.transform = 'translateY(-130px) scale(1.05)';
+                    paper.style.zIndex = '40';
+                    instruction.classList.add('opacity-0', 'pointer-events-none');
+                    controls.classList.remove('hidden');
+                }, 300);
+
+                isCardOpened = true;
+            } else {
+                paper.style.transform = 'translateY(10px) scale(1)';
+                paper.style.zIndex = '10';
+                controls.classList.add('hidden');
+                
+                setTimeout(() => {
+                    flap.style.transform = 'rotateX(0deg)';
+                    flap.style.zIndex = '30';
+                    instruction.classList.remove('opacity-0', 'pointer-events-none');
+                }, 400);
+
+                isCardOpened = false;
+            }
+            playSparksSound();
+        }
+
+        function closeLetterAndCelebrate() {
+            const letterSection = document.getElementById('letter-section');
+            letterSection.classList.add('hidden');
+
+            const celebScreen = document.getElementById('celebration-screen');
+            celebScreen.classList.remove('hidden');
+
+            playCelebrationMusic();
+            initFireworks();
+
+            setTimeout(() => {
+                const celebCard = document.getElementById('celebration-card');
+                celebCard.classList.remove('opacity-0', 'scale-95');
+            }, 800);
+        }
+
+        function restartCelebration() {
+            const celebScreen = document.getElementById('celebration-screen');
+            celebScreen.classList.add('hidden');
+            
+            const letterSection = document.getElementById('letter-section');
+            letterSection.classList.add('hidden');
+
+            document.body.style.overflow = '';
+            stopCelebrationMusic();
+            
+            isCardOpened = false;
+            const paper = document.getElementById('letter-paper');
+            const flap = document.getElementById('envelope-flap');
+            const instruction = document.getElementById('tap-instruction');
+            const controls = document.getElementById('letter-controls');
+            paper.style.transform = 'translateY(10px) scale(1)';
+            paper.style.zIndex = '10';
+            flap.style.transform = 'rotateX(0deg)';
+            flap.style.zIndex = '30';
+            instruction.classList.remove('opacity-0', 'pointer-events-none');
+            controls.classList.add('hidden');
+        }
+
+        let canvas = document.getElementById('fireworks-canvas');
+        let ctx = canvas.getContext('2d');
+        let fireworks = [];
+        let particles = [];
+        let animationFrameId;
+
+        window.addEventListener('resize', resizeCanvas);
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Firework {
+            constructor(startX, startY, targetX, targetY) {
+                this.x = startX;
+                this.y = startY;
+                this.startX = startX;
+                this.startY = startY;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.distanceToTarget = calculateDistance(startX, startY, targetX, targetY);
+                this.distanceTraveled = 0;
+                this.coordinates = [];
+                this.coordinateCount = 3;
+                while (this.coordinateCount--) {
+                    this.coordinates.push([this.x, this.y]);
+                }
+                this.angle = Math.atan2(targetY - startY, targetX - startX);
+                this.speed = 2;
+                this.acceleration = 1.05;
+                this.brightness = randomRange(50, 70);
+                this.hue = randomRange(0, 360);
+            }
+
+            update(index) {
+                this.coordinates.pop();
+                this.coordinates.unshift([this.x, this.y]);
+                this.speed *= this.acceleration;
+                
+                let vx = Math.cos(this.angle) * this.speed;
+                let vy = Math.sin(this.angle) * this.speed;
+                this.distanceTraveled = calculateDistance(this.startX, this.startY, this.x + vx, this.y + vy);
+
+                if (this.distanceTraveled >= this.distanceToTarget) {
+                    createParticles(this.targetX, this.targetY, this.hue);
+                    fireworks.splice(index, 1);
+                    playSparksSound();
+                } else {
+                    this.x += vx;
+                    this.y += vy;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = `hsl(${this.hue}, 100%, ${this.brightness}%)`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        class Particle {
+            constructor(x, y, hue) {
+                this.x = x;
+                this.y = y;
+                this.coordinates = [];
+                this.coordinateCount = 5;
+                while (this.coordinateCount--) {
+                    this.coordinates.push([this.x, this.y]);
+                }
+                this.angle = randomRange(0, Math.PI * 2);
+                this.speed = randomRange(1, 10);
+                this.friction = 0.95;
+                this.gravity = 1;
+                this.hue = randomRange(hue - 20, hue + 20);
+                this.brightness = randomRange(50, 80);
+                this.alpha = 1;
+                this.decay = randomRange(0.015, 0.03);
+            }
+
+            update(index) {
+                this.coordinates.pop();
+                this.coordinates.unshift([this.x, this.y]);
+                this.speed *= this.friction;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                this.alpha -= this.decay;
+
+                if (this.alpha <= this.decay) {
+                    particles.splice(index, 1);
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${this.alpha})`;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        function calculateDistance(p1x, p1y, p2x, p2y) {
+            let xDistance = p1x - p2x;
+            let yDistance = p1y - p2y;
+            return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        }
+
+        function randomRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createParticles(x, y, hue) {
+            let particleCount = 60;
+            while (particleCount--) {
+                particles.push(new Particle(x, y, hue));
+            }
+        }
+
+        function initFireworks() {
+            resizeCanvas();
+            cancelAnimationFrame(animationFrameId);
+            fireworks = [];
+            particles = [];
+            loopFireworks();
+        }
+
+        function loopFireworks() {
+            animationFrameId = requestAnimationFrame(loopFireworks);
+
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
+
+            let i = fireworks.length;
+            while (i--) {
+                fireworks[i].draw();
+                fireworks[i].update(i);
+            }
+
+            let j = particles.length;
+            while (j--) {
+                particles[j].draw();
+                particles[j].update(j);
+            }
+
+            if (Math.random() < 0.04) {
+                let startX = canvas.width / 2 + randomRange(-100, 100);
+                let startY = canvas.height;
+                let targetX = randomRange(50, canvas.width - 50);
+                let targetY = randomRange(50, canvas.height / 2);
+                fireworks.push(new Firework(startX, startY, targetX, targetY));
+            }
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            let startX = canvas.width / 2;
+            let startY = canvas.height;
+            let targetX = e.clientX;
+            let targetY = e.clientY;
+            fireworks.push(new Firework(startX, startY, targetX, targetY));
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                let startX = canvas.width / 2;
+                let startY = canvas.height;
+                let targetX = e.touches[0].clientX;
+                let targetY = e.touches[0].clientY;
+                fireworks.push(new Firework(startX, startY, targetX, targetY));
+            }
+        });
+
+        let flowerCanvas = document.getElementById('flowers-canvas');
+        let fCtx = flowerCanvas.getContext('2d');
+        let flowerAnimationFrame;
+        let stems = [];
+        let bloomingFlowers = [];
+        let foliage = [];
+        let flowerParticles = [];
+        let ribbonDrawn = false;
+        let ribbonScale = 0;
+
+        // Estructuras de las flores que crecerán orgánicamente
+        class Stem {
+            constructor(startX, startY, endX, endY, delay, color) {
+                this.startX = startX;
+                this.startY = startY;
+                this.endX = endX;
+                this.endY = endY;
+                this.x = startX;
+                this.y = startY;
+                this.delay = delay;
+                this.progress = 0;
+                this.color = '#10b981'; // Emerald Green
+                this.flowerColor = color;
+                this.thickness = randomRange(3, 5);
+                this.leafGrown = false;
+                this.completed = false;
+            }
+
+            update(step) {
+                if (this.delay > 0) {
+                    this.delay -= step;
+                    return;
+                }
+                if (this.progress < 1) {
+                    this.progress += 0.01;
+                    if (this.progress > 1) this.progress = 1;
+                    
+                    // Simple quadratic curve for natural bending
+                    let t = this.progress;
+                    let cpX = (this.startX + this.endX) / 2 + (this.endX - this.startX) * 0.2;
+                    let cpY = (this.startY + this.endY) / 2 - 30;
+
+                    // Quadratic Bezier Formula
+                    this.x = (1-t)*(1-t)*this.startX + 2*(1-t)*t*cpX + t*t*this.endX;
+                    this.y = (1-t)*(1-t)*this.startY + 2*(1-t)*t*cpY + t*t*this.endY;
+
+                    // Spawn small leaf dynamically mid-growth
+                    if (t > 0.5 && !this.leafGrown) {
+                        this.leafGrown = true;
+                        foliage.push(new Leaf(this.x, this.y, randomRange(10, 18), randomRange(-Math.PI/4, Math.PI/4)));
+                    }
+                } else if (!this.completed) {
+                    this.completed = true;
+                    // Spawn Flower bloom at tip!
+                    bloomingFlowers.push(new FlowerBloom(this.endX, this.endY, this.flowerColor));
+                    playBloomSound();
+                }
+            }
+
+            draw() {
+                if (this.progress <= 0) return;
+                fCtx.beginPath();
+                fCtx.moveTo(this.startX, this.startY);
+                
+                let t = this.progress;
+                let cpX = (this.startX + this.endX) / 2 + (this.endX - this.startX) * 0.2;
+                let cpY = (this.startY + this.endY) / 2 - 30;
+
+                fCtx.quadraticCurveTo(cpX, cpY, this.x, this.y);
+                fCtx.strokeStyle = this.color;
+                fCtx.lineWidth = this.thickness;
+                fCtx.lineCap = 'round';
+                fCtx.stroke();
+            }
+        }
+
+        class Leaf {
+            constructor(x, y, size, angle) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.angle = angle;
+                this.scale = 0;
+            }
+            update() {
+                if (this.scale < 1) this.scale += 0.05;
+            }
+            draw() {
+                fCtx.save();
+                fCtx.translate(this.x, this.y);
+                fCtx.rotate(this.angle);
+                fCtx.scale(this.scale, this.scale);
+                fCtx.beginPath();
+                fCtx.ellipse(0, 0, this.size, this.size/2.5, 0, 0, Math.PI * 2);
+                fCtx.fillStyle = '#047857'; // Deep emerald leaf
+                fCtx.fill();
+                fCtx.lineWidth = 1;
+                fCtx.strokeStyle = '#065f46';
+                fCtx.stroke();
+                fCtx.restore();
+            }
+        }
+
+        class FlowerBloom {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.scale = 0;
+                this.maxScale = randomRange(22, 32);
+                this.type = Math.floor(randomRange(0, 3)); // Different species of flowers!
+                this.petalCount = Math.floor(randomRange(5, 8));
+                this.rotation = randomRange(0, Math.PI);
+            }
+
+            update() {
+                if (this.scale < this.maxScale) {
+                    this.scale += 0.5;
+                    // Spawn golden pollen/glitter as they bloom
+                    if (Math.random() < 0.2) {
+                        flowerParticles.push(new FlowerParticle(this.x, this.y, this.color));
+                    }
+                }
+            }
+
+            draw() {
+                fCtx.save();
+                fCtx.translate(this.x, this.y);
+                fCtx.rotate(this.rotation);
+                
+                if (this.type === 0) {
+                    // Rose-like overlapping circles/petals
+                    for (let i = 5; i > 0; i--) {
+                        fCtx.beginPath();
+                        let radius = (this.scale * i) / 5;
+                        fCtx.arc(0, 0, radius, 0, Math.PI * 2);
+                        fCtx.fillStyle = this.color;
+                        fCtx.globalAlpha = 0.85;
+                        fCtx.fill();
+                        fCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                        fCtx.stroke();
+                    }
+                    // Yellow heart center
+                    fCtx.beginPath();
+                    fCtx.arc(0, 0, this.scale * 0.25, 0, Math.PI * 2);
+                    fCtx.fillStyle = '#fbbf24'; // Amber center
+                    fCtx.fill();
+                } else if (this.type === 1) {
+                    // Classic Daisy/Sunflower
+                    for (let i = 0; i < this.petalCount; i++) {
+                        fCtx.rotate((Math.PI * 2) / this.petalCount);
+                        fCtx.beginPath();
+                        fCtx.ellipse(this.scale * 0.6, 0, this.scale * 0.6, this.scale * 0.22, 0, 0, Math.PI*2);
+                        fCtx.fillStyle = this.color;
+                        fCtx.fill();
+                        fCtx.stroke();
+                    }
+                    fCtx.beginPath();
+                    fCtx.arc(0, 0, this.scale * 0.4, 0, Math.PI * 2);
+                    fCtx.fillStyle = '#d97706'; // Dark amber
+                    fCtx.fill();
+                } else {
+                    // Tulip shape
+                    fCtx.beginPath();
+                    // Left petal
+                    fCtx.ellipse(-this.scale*0.3, -this.scale*0.1, this.scale*0.4, this.scale*0.8, 0.2, 0, Math.PI*2);
+                    // Right petal
+                    fCtx.ellipse(this.scale*0.3, -this.scale*0.1, this.scale*0.4, this.scale*0.8, -0.2, 0, Math.PI*2);
+                    fCtx.fillStyle = this.color;
+                    fCtx.fill();
+                    // Center overlapping petal
+                    fCtx.beginPath();
+                    fCtx.ellipse(0, 0, this.scale*0.35, this.scale*0.75, 0, 0, Math.PI*2);
+                    fCtx.fillStyle = this.color;
+                    fCtx.fill();
+                }
+                fCtx.restore();
+            }
+        }
+
+        class FlowerParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.vx = randomRange(-1.5, 1.5);
+                this.vy = randomRange(-2.5, -0.5);
+                this.alpha = 1;
+                this.size = randomRange(2, 5);
+                this.decay = randomRange(0.01, 0.02);
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+            draw() {
+                fCtx.save();
+                fCtx.globalAlpha = this.alpha;
+                fCtx.beginPath();
+                fCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                fCtx.fillStyle = '#fef08a'; // Bright sparkling gold
+                fCtx.shadowColor = '#fbbf24';
+                fCtx.shadowBlur = 8;
+                fCtx.fill();
+                fCtx.restore();
+            }
+        }
+
+        // Beautiful Ribbon wrap at the base of stems
+        function drawBouquetRibbon(x, y, scale) {
+            fCtx.save();
+            fCtx.translate(x, y);
+            fCtx.scale(scale, scale);
+            
+            // Ribbon knot
+            fCtx.beginPath();
+            fCtx.roundRect(-15, -10, 30, 20, 5);
+            fCtx.fillStyle = '#f43f5e'; // Bright Rose Red
+            fCtx.fill();
+            fCtx.strokeStyle = '#be123c';
+            fCtx.lineWidth = 2;
+            fCtx.stroke();
+
+            // Bow left loop
+            fCtx.beginPath();
+            fCtx.moveTo(-15, 0);
+            fCtx.bezierCurveTo(-65, -35, -55, 25, -15, 0);
+            fCtx.fillStyle = '#fda4af'; // Soft rose pink inside
+            fCtx.fill();
+            fCtx.stroke();
+
+            // Bow right loop
+            fCtx.beginPath();
+            fCtx.moveTo(15, 0);
+            fCtx.bezierCurveTo(65, -35, 55, 25, 15, 0);
+            fCtx.fillStyle = '#fda4af';
+            fCtx.fill();
+            fCtx.stroke();
+
+            // Bow Tails (flowing ribbon ends)
+            fCtx.beginPath();
+            fCtx.moveTo(-5, 8);
+            fCtx.bezierCurveTo(-30, 45, -15, 60, -25, 80);
+            fCtx.bezierCurveTo(-15, 80, -10, 50, -5, 8);
+            fCtx.fillStyle = '#f43f5e';
+            fCtx.fill();
+
+            fCtx.beginPath();
+            fCtx.moveTo(5, 8);
+            fCtx.bezierCurveTo(30, 45, 15, 60, 25, 80);
+            fCtx.bezierCurveTo(15, 80, 10, 50, 5, 8);
+            fCtx.fillStyle = '#f43f5e';
+            fCtx.fill();
+
+            fCtx.restore();
+        }
+
+        // Setup Ramo stems coordinates mathematically in a lovely fan shape
+        function createRamoStems() {
+            stems = [];
+            bloomingFlowers = [];
+            foliage = [];
+            flowerParticles = [];
+            ribbonDrawn = false;
+            ribbonScale = 0;
+
+            let canvasWidth = flowerCanvas.width;
+            let canvasHeight = flowerCanvas.height;
+            let startPointX = canvasWidth / 2;
+            let startPointY = canvasHeight - 120;
+
+            // Palette of wonderful colors for the flowers
+            const colors = ['#f43f5e', '#ec4899', '#f59e0b', '#8b5cf6', '#3b82f6', '#10b981', '#fb7185', '#fbbf24'];
+
+            // Let's build a majestic fan bouquet
+            let stemCount = 24;
+            for (let i = 0; i < stemCount; i++) {
+                // Symmetrical angle distributions
+                let angle = -Math.PI/2 + (i - (stemCount-1)/2) * (Math.PI / 8) + randomRange(-0.05, 0.05);
+                let length = randomRange(canvasHeight * 0.45, canvasHeight * 0.62);
+                
+                let endX = startPointX + Math.cos(angle) * length;
+                let endY = startPointY + Math.sin(angle) * length;
+                
+                let delay = i * 6; // Sequenced organic growth
+                let color = colors[i % colors.length];
+
+                stems.push(new Stem(startPointX, startPointY, endX, endY, delay, color));
+            }
+        }
+
+        function showIncredibleFlowers() {
+            // Hide Celebration screen
+            document.getElementById('celebration-screen').classList.add('hidden');
+            
+            // Show flowers screen
+            const flowerScreen = document.getElementById('flowers-screen');
+            flowerScreen.classList.remove('hidden');
+
+            // Set canvas correct bounds
+            flowerCanvas.width = window.innerWidth;
+            flowerCanvas.height = window.innerHeight;
+
+            createRamoStems();
+            loopFlowers();
+
+            // Fade in card message overlay
+            setTimeout(() => {
+                const flowersCard = document.getElementById('flowers-card');
+                flowersCard.classList.remove('opacity-0', 'scale-90');
+            }, 5000); // Fades in once bouquet is mostly grown!
+        }
+
+        function loopFlowers() {
+            flowerAnimationFrame = requestAnimationFrame(loopFlowers);
+
+            // Clean background with slightly shiny texture
+            fCtx.clearRect(0, 0, flowerCanvas.width, flowerCanvas.height);
+
+            // Draw and update foliage leaves
+            foliage.forEach(leaf => {
+                leaf.update();
+                leaf.draw();
+            });
+
+            // Draw and update stems
+            stems.forEach(stem => {
+                stem.update(1);
+                stem.draw();
+            });
+
+            // Draw and update flowers
+            bloomingFlowers.forEach(flower => {
+                flower.update();
+                flower.draw();
+            });
+
+            // Handle sparkling particles
+            let k = flowerParticles.length;
+            while (k--) {
+                flowerParticles[k].update();
+                flowerParticles[k].draw();
+                if (flowerParticles[k].alpha <= 0) {
+                    flowerParticles.splice(k, 1);
+                }
+            }
+
+            // Animate and draw ribbon at the bouquet base intersection
+            let allStemsDone = stems.every(stem => stem.completed);
+            if (stems.filter(s => s.progress > 0.3).length > 5) {
+                if (ribbonScale < 1) ribbonScale += 0.02;
+                drawBouquetRibbon(flowerCanvas.width / 2, flowerCanvas.height - 120, ribbonScale);
+            }
+
+            // Continuous magical particle shower falling from heaven
+            if (Math.random() < 0.15) {
+                flowerParticles.push(new FlowerParticle(randomRange(0, flowerCanvas.width), 0, '#ffffff'));
+            }
+        }
+
+        // Resize callback for flower canvas
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('flowers-screen').classList.contains('hidden')) {
+                flowerCanvas.width = window.innerWidth;
+                flowerCanvas.height = window.innerHeight;
+                createRamoStems();
+            }
+        });
+
+        function resetWholeSurprise() {
+            // Cancel flower loop
+            cancelAnimationFrame(flowerAnimationFrame);
+
+            // Hide flower screen
+            document.getElementById('flowers-screen').classList.add('hidden');
+            document.getElementById('flowers-card').classList.add('opacity-0', 'scale-90');
+
+            // Restart welcome screen
+            const welcome = document.getElementById('welcome-screen');
+            welcome.classList.remove('opacity-0', 'pointer-events-none');
+            
+            // Clean inputs
+            document.getElementById('user-name').value = '';
+            document.getElementById('user-bday').value = '';
+
+            // Hide main content till welcome submit
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('header-personalized').classList.add('opacity-0', 'translate-y-4');
+            document.getElementById('heart-collage-container').classList.add('opacity-0', 'scale-95');
+
+            stopCelebrationMusic();
+            document.body.style.overflow = '';
+        }
+
+    </script>
+</body>
+</html>
